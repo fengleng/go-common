@@ -3,9 +3,10 @@ package fengleng
 import "runtime"
 
 var (
-	Sep    string
-	CfgDir string
-	LogDir string
+	Sep           string
+	CfgDir        string
+	LogDir        string
+	LogPreFixName string
 )
 
 func init() {
@@ -18,4 +19,5 @@ func init() {
 		CfgDir = `/etc/fengleng/`
 		LogDir = `/var/log/fengleng/`
 	}
+	LogPreFixName = "fl"
 }
