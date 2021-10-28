@@ -1,3 +1,4 @@
+//go:build !windows
 // +build !windows
 
 package atexit
@@ -25,6 +26,12 @@ func init() {
 		syscall.SIGKILL,
 		syscall.SIGQUIT,
 		syscall.SIGTERM,
+		syscall.SIGILL,
+		syscall.SIGABRT,
+		syscall.SIGBUS,
+		syscall.SIGFPE,
+		syscall.SIGSEGV,
+		syscall.SIGPIPE,
 		syscall.SIGSTOP,
 	)
 	go func() {
