@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"crypto/md5"
 	"fmt"
-	"github.com/fengleng/log"
 	"io"
 	"io/ioutil"
 	"os"
@@ -18,7 +17,6 @@ import (
 func FileRead(filename string) (content string, err error) {
 	buf, err := ioutil.ReadFile(filename)
 	if err != nil {
-		log.("read file %s err %s", filename, err)
 		return "", err
 	}
 	return string(buf), err
@@ -123,7 +121,6 @@ func FileReadLineByLine(fp *os.File, logic func(line string) bool) error {
 		}
 		if err != nil {
 			if err != io.EOF {
-				log.Errorf("read fail %s", err)
 				return err
 			} else {
 				break
@@ -136,7 +133,6 @@ func FileReadLineByLine(fp *os.File, logic func(line string) bool) error {
 func ProcessFileLineByLine(filePath string, routineCnt uint32, logic func(line string) error) error {
 	if routineCnt == 0 {
 		err := errors.New("invalid routine count 0")
-		log.Error(err)
 		return err
 	}
 	ch := make(chan string, 1000)
@@ -152,13 +148,11 @@ func ProcessFileLineByLine(filePath string, routineCnt uint32, logic func(line s
 	}
 	doneFp, err := os.OpenFile(doneFilePath, os.O_APPEND|os.O_CREATE|os.O_RDWR, 0666)
 	if err != nil {
-		log.Error("open done file err:", err)
 		return err
 	}
 	defer doneFp.Close()
 	fp, err := os.Open(filePath)
 	if err != nil {
-		log.Errorf("open %s err %s", filePath, err)
 		return err
 	}
 	defer fp.Close()
@@ -184,7 +178,6 @@ func ProcessFileLineByLine(filePath string, routineCnt uint32, logic func(line s
 						doneMapMu.Unlock()
 						_, _ = doneFp.WriteString(fmt.Sprintf("%s\n", line))
 					} else {
-						log.Errorf("process line %s err %s", line, err)
 					}
 				case <-ticker.C:
 				}
@@ -197,12 +190,10 @@ func ProcessFileLineByLine(filePath string, routineCnt uint32, logic func(line s
 		return true
 	})
 	if err != nil {
-		log.Errorf("read file err %s", err)
 		return err
 	}
 	producerFinished = true
 	wg.Wait()
-	log.Infof("finished")
 	return nil
 }
 
