@@ -13,5 +13,6 @@ func main() {
 	for {
 		log.Println("lalalla")
 		time.Sleep(2 * time.Second)
+		panic("fdsfasf")
 	}
 }

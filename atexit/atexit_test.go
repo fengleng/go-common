@@ -13,5 +13,6 @@ func TestExit(t *testing.T) {
 	for {
 		time.Sleep(2 * time.Second)
 		t.Log("ggggg")
+
 	}
 }

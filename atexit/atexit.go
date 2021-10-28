@@ -31,8 +31,9 @@ func init() {
 		syscall.SIGBUS,
 		syscall.SIGFPE,
 		syscall.SIGSEGV,
-		syscall.SIGPIPE,
+		//syscall.SIGPIPE,
 		syscall.SIGSTOP,
+		syscall.SIGTSTP,
 	)
 	go func() {
 		<-signalChan

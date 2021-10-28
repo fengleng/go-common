@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"gitee.com/fenleng/flyfisher/core/sync2"
+	"github.com/fengleng/go-common/core/sync2"
 )
 
 // Out-of-band messages

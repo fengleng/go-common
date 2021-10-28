@@ -22,7 +22,7 @@ import (
 	"testing"
 	"time"
 
-	"gitee.com/fenleng/flyfisher/core/sync2"
+	"github.com/fengleng/go-common/core/sync2"
 )
 
 var lastID, count sync2.AtomicInt64

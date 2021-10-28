@@ -1,8 +1,10 @@
+//go:build windows
 // +build windows
 
 package atexit
 
 import (
+	"log"
 	"os"
 	"os/signal"
 	"sync"
@@ -30,9 +32,15 @@ func init() {
 		syscall.SIGBUS,
 		syscall.SIGFPE,
 		syscall.SIGSEGV,
-		syscall.SIGPIPE,
+		//syscall.SIGPIPE,
 	)
 	go func() {
+		defer func() {
+			if err := recover(); err != nil {
+				log.Println(err)
+				signalChan <- syscall.SIGINT
+			}
+		}()
 		<-signalChan
 		cbLock.Lock()
 		for _, cb := range exitCallbackList {
