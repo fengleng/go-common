@@ -25,6 +25,12 @@ func init() {
 		syscall.SIGKILL,
 		syscall.SIGQUIT,
 		syscall.SIGTERM,
+		syscall.SIGILL,
+		syscall.SIGABRT,
+		syscall.SIGBUS,
+		syscall.SIGFPE,
+		syscall.SIGSEGV,
+		syscall.SIGPIPE,
 	)
 	go func() {
 		<-signalChan
