@@ -48,7 +48,7 @@ type ResourcePool struct {
 
 type resourceWrapper struct {
 	resource Resource
-	timeUsed time.Time
+	lastTimeUsed time.Time
 }
 
 // NewResourcePool 创建一个资源池子，capacity是池子中可用资源数量
@@ -108,7 +108,7 @@ func (rp *ResourcePool) closeIdleResources() {
 			return
 		}
 
-		if wrapper.resource != nil && idleTimeout > 0 && wrapper.timeUsed.Add(idleTimeout).Sub(time.Now()) < 0 {
+		if wrapper.resource != nil && idleTimeout > 0 && wrapper.lastTimeUsed.Add(idleTimeout).Sub(time.Now()) < 0 {
 			wrapper.resource.Close()
 			wrapper.resource = nil
 			rp.idleClosed.Add(1)
@@ -169,6 +169,7 @@ func (rp *ResourcePool) get(ctx context.Context, wait bool) (resource Resource, 
 	}
 	rp.available.Add(-1)
 	rp.inUse.Add(1)
+	wrapper.lastTimeUsed = time.Now()
 	return wrapper.resource, err
 }
 
